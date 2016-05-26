@@ -1,0 +1,9 @@
+# build dir
+build/
+
+#python files
+*.pyc
+
+#conan files
+conanbuildinfo*
+conaninfo.txt
