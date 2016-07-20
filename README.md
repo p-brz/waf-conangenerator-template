@@ -5,8 +5,10 @@ Clone or download this repository to quickstart using [waf](https://waf.io/) wit
 ## Build
 
 1. Install conan dependencies
+
         conan install
 2. Build
+
         conan build
 
    or
