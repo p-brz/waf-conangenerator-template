@@ -7,3 +7,7 @@ build/
 #conan files
 conanbuildinfo*
 conaninfo.txt
+
+#waf files
+.waf-*
+.lock-waf*

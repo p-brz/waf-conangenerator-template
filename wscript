@@ -3,41 +3,31 @@
 
 from os import path
 
-def options(opt):
+def load_tools(ctx):
+    ctx.load('compiler_cxx')
+
+def options(ctx):
     #Load options from waf tools (c++ compiler)
     # Execute ./waf --help to see current options
-    opt.load('compiler_cxx')
+    load_tools(ctx)
 
-def configure(conf):
-    #Load waf tools (c++ compiler), see waf docs for others
-    conf.load('compiler_cxx')
+    #You can add your own options also
+
+    ctx.add_option('--debug', action='store_true', default=True, dest='debug', help='Do debug build')
+    ctx.add_option('--release', action='store_false', dest='debug', help='Do release build')
+
+def configure(ctx):
+    load_tools(ctx)
 
     # Load references to conan dependencies.
-    # This file (conanbuildinfo_waf.py) will be generated
-    # on
-    conf.load('conanbuildinfo_waf', tooldir=".");
+    # This file (conanbuildinfo_waf.py) will be created
+    # by the waf generator after running 'conan install'
+    ctx.load('conanbuildinfo_waf', tooldir=".");
+
+    # Allows debug build
+    if ctx.options.debug:
+        ctx.env['CXXFLAGS'] += ['-g']
+        ctx.env['CFLAGS'] += ['-g']
 
 def build(bld):
-    # Change this list 'conan_deps' to add the dependencies included on conanfile
-    # Use the name of the conan package.
-    #   Ex.: for the package 'Poco/1.7.1@lasote/stable', you should use:
-    #        conan_deps = ['Poco']
-    # Note that this list will be used as 'use' argument below.
-    # Check Waf book (https://waf.io/book/#_library_interaction_use) for
-    # detailed documentation.
-    conan_deps = []
-
-    #Compile an executable from cpp files on source dir
-    srcdir = 'src'
-    bld.program(
-        target   = 'program',
-        source   = glob(bld, path.join('src', '**', '*.cpp')),
-        includes = [srcdir],
-        use      = conan_deps)
-
-def glob(bld, *k, **kw):
-    '''Helper to execute an ant_glob search.
-        See documentation at: https://waf.io/apidocs/Node.html?#waflib.Node.Node.ant_glob
-    '''
-
-    return bld.path.ant_glob(*k, **kw)
+    bld.recurse('src')
