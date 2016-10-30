@@ -9,7 +9,7 @@ class MyConanFile(ConanFile):
 
     #Conan dependencies
     requires = (
-        "WafGenerator/0.0.1@paulobrizolara/experimental"
+        "WafGenerator/0.0.2@paulobrizolara/experimental"
 
         #You can add other like:
         #, 'Poco/1.7.1@lasote/stable'

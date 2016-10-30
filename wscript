@@ -22,7 +22,7 @@ def configure(ctx):
     # Load references to conan dependencies.
     # This file (conanbuildinfo_waf.py) will be created
     # by the waf generator after running 'conan install'
-    ctx.load('conanbuildinfo_waf', tooldir=".");
+    ctx.load('conanbuildinfo_waf', tooldir=[".", ctx.bldnode.abspath()]);
 
     # Allows debug build
     if ctx.options.debug:
